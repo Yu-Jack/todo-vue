@@ -5,7 +5,8 @@
   "main": "webpack.config.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "pack": "webpack"
+    "pack": "webpack",
+    "packw": "webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
     "babel-preset-es2015": "^6.24.1",
     "vue": "^2.4.4",
     "vue-loader": "^13.0.5",
+    "vue-template-compiler": "^2.4.4",
     "vuex": "^2.4.0",
     "webpack": "^3.6.0"
   }

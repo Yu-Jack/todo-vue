@@ -17,8 +17,13 @@ module.exports = {
             exclude: /node_modules/
         }, {
             test: /\.vue$/,
-            loader: 'vue'
+            loader: 'vue-loader'
         }]
+    },
+    resolve: {
+        alias: {
+          vue: 'vue/dist/vue.js'
+        }
     },
     plugins: [
         new webpack.LoaderOptionsPlugin({
