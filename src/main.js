@@ -1,9 +1,12 @@
 import Vue from 'vue';
-import MyComponent from './my-component.vue'
+import TodoOutline from './todo-outline.vue'
+import store from './store/store.js'
+
 
 new Vue({
     el: 'div#main-body',
+    store,
     components: {
-        MyComponent
+        TodoOutline
     }
 })
