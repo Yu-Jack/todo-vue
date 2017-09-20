@@ -1,7 +1,7 @@
 import Vue from 'vue';
 
 new Vue({
-    el: 'div#main-body',
+    el: 'div#main',
     data() {
         return {
             a: 1
