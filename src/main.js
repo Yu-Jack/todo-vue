@@ -1,12 +1,32 @@
 import Vue from 'vue';
-import TodoOutline from './todo-outline.vue'
-import store from './store/store.js'
+import VueRouter from 'vue-router';
+import TodoOutline from './todo-outline.vue';
+import IndexPage from './index-page.vue';
+import store from './store/store.js';
 
+Vue.use(VueRouter)
+
+const routes = [
+    {
+        path: '/todo', 
+        component: TodoOutline,
+    },
+    {
+        path: '/index', 
+        component: IndexPage,
+    }
+]
+
+const router = new VueRouter({
+    routes
+})
 
 new Vue({
     el: 'div#main-body',
     store,
+    router,
     components: {
-        TodoOutline
+        TodoOutline,
+        IndexPage
     }
 })

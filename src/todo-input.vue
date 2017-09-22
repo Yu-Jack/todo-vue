@@ -1,6 +1,11 @@
 <template lang="html">
     <div>
-        <input type="text" v-model="item" v-on:keyup.13="submit">
+        <form action="" class="ui form">
+            <div class="field">
+                <label for="">List</label>
+                <input type="text" v-model="item" v-on:keyup.13="submit">
+            </div>
+        </form>
     </div>
 </template>
 <script>
@@ -12,7 +17,10 @@ export default {
     },
     methods: {
         submit() {
-            this.$store.state.lists.push(this.item)
+            this.$store.commit('addItem', {
+                name: this.item,
+                is_completed: false
+            })
             this.item = ''
         }
     }
