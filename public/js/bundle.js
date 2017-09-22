@@ -13291,6 +13291,9 @@ if (false) {(function () {
                 is_completed: false
             });
             this.item = '';
+        },
+        block() {
+            return false;
         }
     }
 });
@@ -13305,38 +13308,50 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", [
-    _c("form", { staticClass: "ui form", attrs: { action: "" } }, [
-      _c("div", { staticClass: "field" }, [
-        _c("label", { attrs: { for: "" } }, [_vm._v("List")]),
-        _vm._v(" "),
-        _c("input", {
-          directives: [
-            {
-              name: "model",
-              rawName: "v-model",
-              value: _vm.item,
-              expression: "item"
-            }
-          ],
-          attrs: { type: "text" },
-          domProps: { value: _vm.item },
-          on: {
-            keyup: function($event) {
-              if (!("button" in $event) && $event.keyCode !== 13) {
-                return null
-              }
-              _vm.submit($event)
-            },
-            input: function($event) {
-              if ($event.target.composing) {
-                return
-              }
-              _vm.item = $event.target.value
-            }
+    _c(
+      "form",
+      {
+        staticClass: "ui form",
+        on: {
+          submit: function($event) {
+            $event.preventDefault()
+            _vm.block($event)
           }
-        })
-      ])
-    ])
+        }
+      },
+      [
+        _c("div", { staticClass: "field" }, [
+          _c("label", { attrs: { for: "" } }, [_vm._v("List")]),
+          _vm._v(" "),
+          _c("input", {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.item,
+                expression: "item"
+              }
+            ],
+            attrs: { type: "text" },
+            domProps: { value: _vm.item },
+            on: {
+              keyup: function($event) {
+                if (!("button" in $event) && $event.keyCode !== 13) {
+                  return null
+                }
+                _vm.submit($event)
+              },
+              input: function($event) {
+                if ($event.target.composing) {
+                  return
+                }
+                _vm.item = $event.target.value
+              }
+            }
+          })
+        ])
+      ]
+    )
   ])
 }
 var staticRenderFns = []
