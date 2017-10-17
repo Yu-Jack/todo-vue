@@ -14177,17 +14177,14 @@ if (false) {(function () {
 //
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    data() {
-        return {
-            status: ""
-        };
-    },
-    mounted() {
-        this.$store.state.status = this.status;
-    },
-    watch: {
-        status(n_v, o_v) {
-            this.$store.state.status = n_v;
+    computed: {
+        status: {
+            get() {
+                return this.$store.state.status;
+            },
+            set(value) {
+                this.$store.commit('setFilter', value);
+            }
         }
     }
 });
@@ -14233,9 +14230,7 @@ var render = function() {
       [
         _c("option", { attrs: { value: "" } }, [_vm._v("Show All")]),
         _vm._v(" "),
-        _c("option", { attrs: { value: "done", selected: "" } }, [
-          _vm._v("Show Done")
-        ]),
+        _c("option", { attrs: { value: "done" } }, [_vm._v("Show Done")]),
         _vm._v(" "),
         _c("option", { attrs: { value: "nondone" } }, [
           _vm._v("Show None-done")
@@ -14726,19 +14721,12 @@ module.exports = function listToStyles (parentId, list) {
 //
 
 /* harmony default export */ __webpack_exports__["a"] = ({
-    data() {
-        return {
-            status: this.$store.state.status
-        };
-    },
     computed: {
+        status() {
+            return this.$store.state.status;
+        },
         lists() {
-            return this.$store.state.lists.filter(list => {
-                const s = list.is_completed === true ? 'done' : 'nondone';
-                if (this.$store.state.status === '') return true;else {
-                    return this.$store.state.status === s;
-                }
-            });
+            return this.$store.getters.filtered_list;
         }
     },
     methods: {
@@ -14747,11 +14735,6 @@ module.exports = function listToStyles (parentId, list) {
         },
         done(id) {
             this.$store.commit('changeStatus', id);
-        }
-    },
-    watch: {
-        status(n_v, o_v) {
-            console.log(n_v, o_v);
         }
     }
 });
@@ -14979,7 +14962,7 @@ if (false) {
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-
+/* WEBPACK VAR INJECTION */(function(process) {
 
 Object.defineProperty(exports, "__esModule", {
     value: true
@@ -14998,8 +14981,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 _vue2.default.use(_vuex2.default);
 
 var store = new _vuex2.default.Store({
+    strict: process.env.NODE_ENV !== 'production',
     state: {
         lists: [],
+        // done, nondone, 空字串（代表 all）
         status: '',
         counter: 0
     },
@@ -15010,21 +14995,38 @@ var store = new _vuex2.default.Store({
             state.lists.push(new_item);
         },
         changeStatus: function changeStatus(state, id) {
-            state.lists = state.lists.map(function (list) {
-                if (list.id === id) list.is_completed = !list.is_completed;
-                return list;
+            state.lists.forEach(function (list) {
+                if (list.id === id) {
+                    list.is_completed = !list.is_completed;
+                }
             });
         },
         deleteItem: function deleteItem(state, id) {
             state.lists = state.lists.filter(function (list) {
-                if (list.id === id) return false;
-                return true;
+                return list.id !== id;
+            });
+        },
+        setFilter: function setFilter(state, filter) {
+            state.status = filter;
+        }
+    },
+    getters: {
+        filtered_list: function filtered_list(state) {
+            // all
+            if (state.status === '') {
+                return state.lists;
+            }
+            // done or nondone
+            return state.lists.filter(function (todo) {
+                var todo_status = todo.is_completed === true ? 'done' : 'nondone';
+                return state.status === todo_status;
             });
         }
     }
 });
 
 exports.default = store;
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)))
 
 /***/ }),
 /* 29 */

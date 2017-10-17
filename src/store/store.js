@@ -4,8 +4,10 @@ import Vuex from 'vuex';
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
+    strict: process.env.NODE_ENV !== 'production',
     state: {
         lists: [],
+        // done, nondone, 空字串（代表 all）
         status: '',
         counter: 0
     },
@@ -16,15 +18,29 @@ const store = new Vuex.Store({
             state.lists.push(new_item)
         },
         changeStatus(state, id) {
-            state.lists = state.lists.map((list) => {
-                if (list.id === id) list.is_completed = !list.is_completed
-                return list
+            state.lists.forEach((list) => {
+                if (list.id === id) {
+                    list.is_completed = !list.is_completed
+                }
             })
         },
         deleteItem(state, id) {
-            state.lists = state.lists.filter((list) => {
-                if (list.id === id) return false;
-                return true;
+            state.lists = state.lists.filter((list) => list.id !== id)
+        },
+        setFilter (state, filter) {
+            state.status = filter
+        }
+    },
+    getters: {
+        filtered_list (state) {
+            // all
+            if (state.status === '') {
+                return state.lists
+            }
+            // done or nondone
+            return state.lists.filter((todo) => {
+                const todo_status = todo.is_completed === true ? 'done' : 'nondone'
+                return state.status === todo_status
             })
         }
     }
