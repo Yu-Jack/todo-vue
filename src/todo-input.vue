@@ -1,9 +1,9 @@
 <template lang="html">
     <div>
-        <form class="ui form" @submit.prevent="block">
+        <form class="ui form" @submit.prevent="submit">
             <div class="field">
                 <label for="">List</label>
-                <input type="text" v-model="item" v-on:keyup.13="submit">
+                <input type="text" v-model="item">
             </div>
         </form>
     </div>
@@ -22,9 +22,6 @@ export default {
                 is_completed: false
             })
             this.item = ''
-        },
-        block() {
-            return false
         }
     }
 }
