@@ -27,6 +27,9 @@ const store = new Vuex.Store({
                 if (list.id === id) return false;
                 return true;
             })
+        },
+        setFilter (state, filter) {
+            state.status = filter
         }
     }
 })
