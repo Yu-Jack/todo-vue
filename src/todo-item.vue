@@ -33,20 +33,12 @@
 
 <script>
 export default {
-    data() {
-        return {
-            status: this.$store.state.status
-        }
-    },
     computed: {
+        status () {
+            return this.$store.state.status
+        },
         lists() {
-            return this.$store.state.lists.filter((list) => {
-                const s = (list.is_completed === true ? 'done' : 'nondone')
-                if (this.$store.state.status === '') return true
-                else {
-                    return (this.$store.state.status === s)
-                }
-            })
+            return this.$store.getters.filtered_list
         }  
     },
     methods: {
@@ -55,11 +47,6 @@ export default {
         },
         done(id) {
             this.$store.commit('changeStatus', id)
-        }
-    },
-    watch: {
-        status(n_v, o_v) {
-            console.log(n_v, o_v);
         }
     }
 }

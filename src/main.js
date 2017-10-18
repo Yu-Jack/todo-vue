@@ -12,9 +12,13 @@ const routes = [
         component: TodoOutline,
     },
     {
-        path: '/index', 
+        path: '/', 
         component: IndexPage,
-    }
+    },
+    {
+        path: '*', 
+        redirect: '/',
+    },
 ]
 
 const router = new VueRouter({
@@ -24,9 +28,5 @@ const router = new VueRouter({
 new Vue({
     el: 'div#main-body',
     store,
-    router,
-    components: {
-        TodoOutline,
-        IndexPage
-    }
+    router
 })
